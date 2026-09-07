@@ -119,9 +119,26 @@ accent as its ground with the type knocked out in the canvas color; without
 
 The header is optional: Mosaic fills the leading cells that have no default,
 so `#m.slide(sci.grids.spread)[figure][commentary]` leaves the heading band
-empty. Two or three equal columns are `#m.slide(columns: 2)`. Anything else
-is an `m.grids` tree composed in place; `sci.grids.header` is the heading
-band to open it with.
+empty. Two or three equal columns are `#m.slide(columns: 2)`.
+
+Anything else is a grid composed in place. `sci.grids.rows` and
+`sci.grids.columns` are Mosaic's constructors plus anonymous cells: `auto` is
+a cell that needs no name, an integer is that many of them, and
+`sci.grids.header` is the heading band to open with.
+
+```typst
+#m.slide(sci.grids.rows(
+  sci.grids.header,
+  sci.grids.columns(auto, auto),
+  sci.grids.columns(3),
+))[== Two on top, three below][left][right][a][b][c]
+```
+
+Anonymous cells are named by their path from the root, so the cells above are
+`header`, `2-1`, `2-2`, `3-1`, `3-2`, `3-3`, and one is still addressable
+when a rule or a `cells:` entry needs it: `show label("mosaic-cell-2-2")`.
+Named cells, Mosaic nodes, and `m.grids.track` sizes mix in freely; ids made
+only of digits and dashes are reserved for anonymous cells.
 
 **Components** take content and semantic arguments, never paint or size. Each
 labels its parts (`<sci-callout>`, `<sci-figbox-caption>`,

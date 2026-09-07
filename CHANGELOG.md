@@ -8,6 +8,8 @@ rebuilt on [Mosaic](https://github.com/vincentarelbundock/mosaic).
 - Headings, the cover title, hero equations, and the ground of an inverted
   focus slide carry the palette accent, so the academic palette keeps
   sci-brain's indigo look.
+- `grids.rows` and `grids.columns` accept `auto` for an anonymous cell and
+  an integer for that many, naming them by their path from the root.
 - One `setup`, five palettes (`academic`, `dark`, `minimal`, `vibrant`, and
   `brand(primary)`), three named-cell grids (`spread`, `hero`, `focus`).
 - Fourteen research components that go inside any cell: callout, figbox,

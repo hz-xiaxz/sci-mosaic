@@ -104,6 +104,21 @@ def main():
         run("compile", brand, output / "brand.pdf")
         assert pdf_pages(output / "brand.pdf") == 3
 
+        # Anonymous cells are named by their path and stay addressable.
+        anon = deck / "anon.typ"
+        anon.write_text(
+            f'#import "{spec}": *\n'
+            '#import "@preview/mosaic:0.0.1" as m\n'
+            '#show: setup.with(title: [Anon])\n'
+            '#show label("mosaic-cell-2-2"): it => [#metadata("hit") <cell>#it]\n'
+            '#m.slide(grids.rows(grids.header, grids.columns(auto, auto), m.grids.track(2fr, grids.columns(3))),'
+            ' cells: (header: [== A], "2-1": [x], "2-2": [y], "3-3": [z]))\n'
+            '#m.slide(grids.columns(auto, grids.rows(auto, "note")))[a][b][c]\n'
+        )
+        run("compile", anon, output / "anon.pdf")
+        observed = run("eval", "query(<cell>).map(it => it.value)", "--in", anon)
+        assert observed.strip() == '["hit"]', observed
+
         # The rehearsal clock counts an incremental slide once.
         pacing = deck / "pacing.typ"
         pacing.write_text(
@@ -134,6 +149,9 @@ def main():
             ('#show: setup.with(title: [T])\n== S\n#pacing(-1)', "pacing minutes must be"),
             ('#show: setup.with(title: [T])\n== S\n#diagrams.canvas({}, 1)', "diagrams.canvas takes one body"),
             ('#show: setup.with(title: [T])\n#m.slide(grids.spread)[a][b][c][d]', "bodies to override them, received 4"),
+            ('#show: setup.with(title: [T])\n#m.slide(grids.columns(0))[a]', "cell count must be a positive integer"),
+            ('#show: setup.with(title: [T])\n#m.slide(grids.rows(1.5))[a]', "rows children must be auto"),
+            ('#show: setup.with(title: [T])\n#m.slide(grids.columns())[a]', "columns must contain at least one child"),
         ):
             test.write_text(preamble + code)
             run("compile", test, tmp / "error.pdf", error=message)
