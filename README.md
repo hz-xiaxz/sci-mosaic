@@ -138,7 +138,10 @@ Anonymous cells are named by their path from the root, so the cells above are
 `header`, `2-1`, `2-2`, `3-1`, `3-2`, `3-3`, and one is still addressable
 when a rule or a `cells:` entry needs it: `show label("mosaic-cell-2-2")`.
 Named cells, Mosaic nodes, and `m.grids.track` sizes mix in freely; ids made
-only of digits and dashes are reserved for anonymous cells.
+only of digits and dashes are reserved for anonymous cells. The same
+behavior is proposed for Mosaic's own constructors in
+[vincentarelbundock/mosaic#9](https://github.com/vincentarelbundock/mosaic/pull/9);
+once it ships, `sci.grids.rows` and `sci.grids.columns` become thin aliases.
 
 `sci.grids.shape` is the terse spelling of rows of columns, the way
 `m.slide(columns: 3)` is the terse spelling of one row. Each argument is a
