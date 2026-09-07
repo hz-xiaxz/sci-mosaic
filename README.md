@@ -140,6 +140,28 @@ when a rule or a `cells:` entry needs it: `show label("mosaic-cell-2-2")`.
 Named cells, Mosaic nodes, and `m.grids.track` sizes mix in freely; ids made
 only of digits and dashes are reserved for anonymous cells.
 
+`sci.grids.shape` is the terse spelling of rows of columns, the way
+`m.slide(columns: 3)` is the terse spelling of one row. Each argument is a
+row, and anonymous cells are named row-column:
+
+| Shape | Meaning | Cells |
+|---|---|---|
+| `shape(3)` | the same as `columns: 3` | `header`, `1-1`, `1-2`, `1-3` |
+| `shape(3, 2)` | a row of three over a row of two | `1-1` … `1-3`, `2-1`, `2-2` |
+| `shape(3, (2, 1))` | second row: two columns, the first stacking two cells | …, `2-1-1`, `2-1-2`, `2-2` |
+| `shape(("figure", "commentary"), 3)` | named cells in the first row | `figure`, `commentary`, `2-1` … |
+| `shape(m.grids.track(2fr, 2), 3)` | the first row twice as tall | `1-1`, `1-2`, `2-1` … |
+
+Inside a spec an integer is that many equal cells along the current axis, an
+array is a split whose children take the other axis (so axes alternate with
+depth), a string is a named cell, `auto` one anonymous cell, and
+`m.grids.track(size, spec)` a sized one. `header: false` drops the heading
+band and `gutter:` sets the gap between cells.
+
+```typst
+#m.slide(sci.grids.shape(3, 2))[== Three over two][a][b][c][d][e]
+```
+
 **Components** take content and semantic arguments, never paint or size. Each
 labels its parts (`<sci-callout>`, `<sci-figbox-caption>`,
 `<sci-table-highlight>`, ...) and the theme's show rules paint them, so one

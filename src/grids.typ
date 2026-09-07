@@ -114,6 +114,67 @@
   auto,
   m.grids.cell("header", inset: (x: 1.25em, y: 0.69em)),
 )
+#let header-band = header
+
+// ── Shapes ─────────────────────────────────────────────────────────────
+// A shape is the terse spelling of rows of columns: `m.slide(columns: 3)`
+// says one row of three, `shape(3, 2)` says a row of three over a row of
+// two. Each positional argument is one row. Inside a spec:
+//
+//   - an integer is that many equal anonymous cells along the current axis,
+//   - an array is a split along the current axis whose children take the
+//     other axis, so axes alternate with depth: `shape(3, (2, 1))` gives a
+//     second row of two columns, the first of which stacks two cells,
+//   - a string is a named cell and `auto` one anonymous cell,
+//   - `m.grids.track(size, spec)` sizes a row or a column,
+//   - a finished grid node passes through.
+//
+// Anonymous cells are named row-column: `1-3` is the third cell of the first
+// row and `2-1-2` the second stacked cell of the second row's first column.
+#let build(spec, axis, gutter) = {
+  let split = if axis == "columns" { columns } else { rows }
+  let inner = if axis == "columns" { "rows" } else { "columns" }
+  if is-node(spec) and spec.kind == "track" {
+    m.grids.track(spec.size, build(spec.child, axis, gutter))
+  } else if type(spec) == int {
+    if spec < 1 {
+      fail("a shape count must be a positive integer")
+    }
+    if spec == 1 { auto } else { split(gutter: gutter, spec) }
+  } else if type(spec) == array {
+    if spec.len() == 0 {
+      fail("a shape split must contain at least one child")
+    }
+    split(gutter: gutter, ..spec.map(child => build(child, inner, gutter)))
+  } else if spec == auto or type(spec) == str or is-node(spec) {
+    spec
+  } else {
+    fail(
+      "shape specs are integers, arrays, cell ids, auto, tracks, or grid"
+        + " nodes; got " + repr(spec),
+    )
+  }
+}
+
+/// Rows of columns from a terse spec, under a heading band. `shape(3)` is
+/// `m.slide(columns: 3)`; `shape(3, 2)` puts a row of three over a row of
+/// two. See the grammar above for nesting, names, and sizes.
+#let shape(..specs, header: true, gutter: 0.7em) = {
+  if specs.named().len() > 0 {
+    fail("shape accepts only row specs, header, and gutter")
+  }
+  if specs.pos().len() == 0 {
+    fail("shape needs at least one row")
+  }
+  if type(header) != bool {
+    fail("shape header must be true or false")
+  }
+  let body = rows(
+    gutter: gutter,
+    ..specs.pos().map(spec => build(spec, "columns", gutter)),
+  )
+  if header { m.grids.rows(header-band, body) } else { body }
+}
 
 /// Figure beside interpretation: a wide `figure` cell and a narrower
 /// `commentary` cell under a `header`. The default research slide.

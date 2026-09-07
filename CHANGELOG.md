@@ -10,6 +10,8 @@ rebuilt on [Mosaic](https://github.com/vincentarelbundock/mosaic).
   sci-brain's indigo look.
 - `grids.rows` and `grids.columns` accept `auto` for an anonymous cell and
   an integer for that many, naming them by their path from the root.
+- `grids.shape(3, 2)` spells rows of columns the way `columns: 3` spells one
+  row, with nesting, named cells, and track sizes inside the spec.
 - One `setup`, five palettes (`academic`, `dark`, `minimal`, `vibrant`, and
   `brand(primary)`), three named-cell grids (`spread`, `hero`, `focus`).
 - Fourteen research components that go inside any cell: callout, figbox,

@@ -78,22 +78,18 @@
   #sci.punch([4×], [lower standard error], source: [16 independent samples instead of one])
 ]
 
-#m.slide(sci.grids.rows(
-  sci.grids.header,
-  sci.grids.columns(gutter: 0.7em, auto, auto),
-  sci.grids.columns(gutter: 0.7em, 3),
-))[
-  == Anonymous cells / two on top, three below
+#m.slide(sci.grids.shape(2, 3))[
+  == Shapes / `shape(2, 3)`, two on top, three below
 ][
   #m.components.card(width: 100%)[*Before* \ Describe the baseline in one short paragraph.]
 ][
   #m.components.card(width: 100%)[*After* \ Explain what the new method changes.]
 ][
-  #m.components.card(width: 100%)[Cell `3-1`]
+  #m.components.card(width: 100%)[Cell `2-1`]
 ][
-  #m.components.card(width: 100%)[Cell `3-2`]
+  #m.components.card(width: 100%)[Cell `2-2`]
 ][
-  #m.components.card(width: 100%)[Cell `3-3`]
+  #m.components.card(width: 100%)[Cell `2-3`]
 ]
 
 #m.slide(columns: 3)[

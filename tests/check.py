@@ -119,6 +119,22 @@ def main():
         observed = run("eval", "query(<cell>).map(it => it.value)", "--in", anon)
         assert observed.strip() == '["hit"]', observed
 
+        # Shapes name their cells row-column and nest with alternating axes.
+        shape = deck / "shape.typ"
+        shape.write_text(
+            f'#import "{spec}": *\n'
+            '#import "@preview/mosaic:0.0.1" as m\n'
+            '#show: setup.with(title: [Shape])\n'
+            '#show label("mosaic-cell-2-1-2"): it => [#metadata("deep") <cell>#it]\n'
+            '#m.slide(grids.shape(3, (2, 1)), cells: (header: [== S], "1-3": [x], "2-1-2": [y], "2-2": [z]))\n'
+            '#m.slide(grids.shape(m.grids.track(2fr, ("figure", "commentary")), 3, header: false))'
+            '[f][c][a][b][d]\n'
+            '#m.slide(grids.shape(1))[== One][only]\n'
+        )
+        run("compile", shape, output / "shape.pdf")
+        observed = run("eval", "query(<cell>).map(it => it.value)", "--in", shape)
+        assert observed.strip() == '["deep"]', observed
+
         # The rehearsal clock counts an incremental slide once.
         pacing = deck / "pacing.typ"
         pacing.write_text(
@@ -152,6 +168,11 @@ def main():
             ('#show: setup.with(title: [T])\n#m.slide(grids.columns(0))[a]', "cell count must be a positive integer"),
             ('#show: setup.with(title: [T])\n#m.slide(grids.rows(1.5))[a]', "rows children must be auto"),
             ('#show: setup.with(title: [T])\n#m.slide(grids.columns())[a]', "columns must contain at least one child"),
+            ('#show: setup.with(title: [T])\n#m.slide(grids.shape())[a]', "shape needs at least one row"),
+            ('#show: setup.with(title: [T])\n#m.slide(grids.shape(0))[a]', "shape count must be a positive integer"),
+            ('#show: setup.with(title: [T])\n#m.slide(grids.shape(2.5))[a]', "shape specs are integers"),
+            ('#show: setup.with(title: [T])\n#m.slide(grids.shape(()))[a]', "shape split must contain at least one child"),
+            ('#show: setup.with(title: [T])\n#m.slide(grids.shape(2, header: 1))[a]', "shape header must be true or false"),
         ):
             test.write_text(preamble + code)
             run("compile", test, tmp / "error.pdf", error=message)
