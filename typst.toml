@@ -1,0 +1,17 @@
+[package]
+name = "sci-mosaic"
+version = "0.1.0"
+entrypoint = "lib.typ"
+authors = ["Xuanzhe Xia <@hz-xiaxz>", "GiggleLiu <@GiggleLiu>"]
+license = "MIT"
+description = "Scientific talks on Mosaic: five palettes, three named-cell grids, and research components for any cell."
+repository = "https://github.com/hz-xiaxz/sci-mosaic"
+keywords = ["science", "slides", "mosaic", "research", "presentation"]
+categories = ["presentation", "components"]
+compiler = "0.15.0"
+exclude = ["/tests/", "/.github/", "/.gitignore", "/gallery.typ", "/docs/", "/CHANGELOG.md", "/Makefile", "/previews/"]
+
+[template]
+path = "template"
+entrypoint = "main.typ"
+thumbnail = "thumbnail.png"
