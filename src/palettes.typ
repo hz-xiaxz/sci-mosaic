@@ -8,14 +8,16 @@
 // and hand the result to `setup(palette: ..)`.
 
 // Restrained indigo on white. The conference-talk default: serious,
-// projector-safe, prints well in greyscale.
+// projector-safe, prints well in greyscale. The accent is the original
+// sci-brain primary, which paints headings, the progress line, emphasized
+// quantities, and the ground of an inverted focus slide.
 #let academic = (
   canvas: rgb("#ffffff"),
-  surface: rgb("#f5f5fa"),
+  surface: rgb("#f7f7fb"),
   text: rgb("#1c1c2e"),
   muted: rgb("#56566e"),
   line: rgb("#d4d4de"),
-  accent: rgb("#4f3fc4"),
+  accent: rgb("#2f2f7f"),
   warning: rgb("#b45309"),
   error: rgb("#c62828"),
 )

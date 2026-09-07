@@ -33,12 +33,13 @@
   show link: set text(fill: colors.accent)
   show figure.caption: set text(size: 0.7em, fill: colors.muted)
 
-  // Headings. A level-two heading opens a content slide and sits in the
-  // header cell, ruled beneath like the original sci-brain header. Level one
-  // is the section title; the section cell states the display size, so the
-  // heading itself stays at the cell's size rather than compounding with it.
-  show heading.where(depth: 1): set text(size: 1em, weight: "bold")
-  show heading.where(depth: 2): set text(size: 1.2em, weight: "bold")
+  // Headings carry the accent, as sci-brain's ink did. A level-two heading
+  // opens a content slide and sits in the header cell, ruled beneath like the
+  // original header. Level one is the section title; the section cell states
+  // the display size, so the heading itself stays at the cell's size rather
+  // than compounding with it.
+  show heading.where(depth: 1): set text(size: 1em, weight: "bold", fill: colors.accent)
+  show heading.where(depth: 2): set text(size: 1.2em, weight: "bold", fill: colors.accent)
   show heading.where(depth: 2): it => block(
     width: 100%,
     inset: (bottom: 0.4em),
@@ -48,22 +49,36 @@
   show heading: set block(below: 0.5em)
 
   // Mosaic's cells.
-  show label("mosaic-title-display"): set text(size: 1.8em, weight: "bold")
+  show label("mosaic-title-display"): set text(size: 1.8em, weight: "bold", fill: colors.accent)
   show label("mosaic-cell-title"): set par(leading: 0.45em)
   show label("mosaic-cell-section"): set align(left + horizon)
-  show label("mosaic-cell-section"): set text(size: 1.8em, weight: "bold")
+  show label("mosaic-cell-section"): set text(size: 1.8em, weight: "bold", fill: colors.accent)
   show label("mosaic-cell-footer"): set text(size: 0.55em, fill: colors.muted)
   show label("mosaic-cell-authors"): set text(size: 0.8em, weight: "medium")
   show label("mosaic-cell-details"): set text(size: 0.62em, fill: colors.muted)
 
-  // The sci grids.
+  // The sci grids. A display equation in the hero cell carries the accent,
+  // as sci-brain's hero did. An inverted focus slide takes the accent as its
+  // ground rather than Mosaic's text-colored one: the rule reads the live text
+  // fill, which inversion sets to the canvas color, so an ordinary focus slide
+  // keeps the canvas.
   show label("mosaic-cell-commentary"): set text(size: 0.85em)
   show label("mosaic-cell-hero"): set align(center + horizon)
   show label("mosaic-cell-hero"): set text(size: 1.15em)
+  show label("mosaic-cell-hero"): it => {
+    show math.equation.where(block: true): set text(fill: colors.accent)
+    it
+  }
   show label("mosaic-cell-focus"): set align(left + horizon)
   show label("mosaic-cell-focus"): set text(size: 1.6em, weight: "bold")
+  show label("mosaic-cell-focus"): it => context if text.fill == colors.canvas {
+    block(width: 100%, height: 100%, fill: colors.accent, it)
+  } else {
+    it
+  }
 
   // The sci components.
+  show label("sci-figbox-title"): set text(fill: colors.accent)
   show label("sci-figbox-title"): it => block(
     width: 100%,
     inset: (bottom: 0.3em),

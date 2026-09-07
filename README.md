@@ -88,7 +88,7 @@ it.
 
 | Palette | Appearance |
 |---|---|
-| `academic` | Indigo on white |
+| `academic` | sci-brain's indigo on white |
 | `dark` | Pale ink and a gold accent on slate |
 | `minimal` | Black on white |
 | `vibrant` | Teal on white |
@@ -106,11 +106,16 @@ content-sized `header` cell; style a cell by its label.
 |---|---|---|
 | `spread` | `header`, `figure` (2fr), `commentary` | Evidence beside interpretation |
 | `hero` | `header`, `hero` | One centered equation or claim |
-| `focus` | `focus` | One sentence alone; pair with `invert: true` |
+| `focus` | `focus` | One sentence alone; with `invert: true`, knocked out on the accent |
 
 ```typst
 #show label("mosaic-cell-commentary"): set text(size: 0.8em)
 ```
+
+Headings, the cover title, and a display equation in the `hero` cell carry
+the accent, as sci-brain's ink did. An inverted `focus` slide takes the
+accent as its ground with the type knocked out in the canvas color; without
+`invert` it stays on the canvas.
 
 The header is optional: Mosaic fills the leading cells that have no default,
 so `#m.slide(sci.grids.spread)[figure][commentary]` leaves the heading band
